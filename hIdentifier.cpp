@@ -8,12 +8,11 @@
 #include <errno.h>
 #include "hIdentifier.h"
 
-std::unordered_map<const char*,uint8_t> hashmap;
-std::vector<uint16_t> map;
-
 class HASH_IDENTIFIER{
 
 private:
+
+	std::vector<uint16_t> map;
 
 	const char *hash;
 	uint32_t    hashInt;
@@ -25,9 +24,8 @@ public:
 		this->hash = hash;
 		this->hashInt = atoi(hash);
 		
-		_hash_identifier_();
 	}
-	
+
 	void _hash_identifier_(){
 	
 		printf("Hash[%s] %u\n",hash,hashInt);
@@ -64,9 +62,13 @@ public:
 		RipeMD128HMAC();
 		SNEFRU128();
 		
+		Tiger128();
+		Tiger128HMAC();
+		SHA1();
+		SHA1HMAC();
+			
 		
-		
-		hash_show();
+		debug_hash_show();
 		
 	}
 
@@ -548,7 +550,98 @@ public:
     	
     	}
     	
+    	void SNEFRU128HMAC(){
 
+		const char *hs = "59b2b9dcc7a9a7d089cecf1b83520350";
+    		
+    		bool isValid = 	cmpLengthEqual(hash,hs) &&
+    				isDigit(hashInt,FALSE)  && 
+    				isAlpha(hashInt,FALSE)  &&
+    				isAlnum(hash,TRUE);
+    				
+    		if(isValid){
+    		
+    			map.push_back(28);
+    		
+    		}
+    	
+    	}
+    	
+    	void Tiger128(){
+
+		const char *hs = "c086184486ec6388ff81ec9f23528727";
+    		
+    		bool isValid = 	cmpLengthEqual(hash,hs) &&
+    				isDigit(hashInt,FALSE)  && 
+    				isAlpha(hashInt,FALSE)  &&
+    				isAlnum(hash,TRUE);
+    				
+    		if(isValid){
+    		
+    			map.push_back(29);
+    		
+    		}
+    	
+    	}
+    	
+	void Tiger128HMAC(){
+
+		const char *hs = "c87032009e7c4b2ea27eb6f99723454b";
+    		
+    		bool isValid = 	cmpLengthEqual(hash,hs) &&
+    				isDigit(hashInt,FALSE)  && 
+    				isAlpha(hashInt,FALSE)  &&
+    				isAlnum(hash,TRUE);
+    				
+    		if(isValid){
+    		
+    			map.push_back(31);
+    		
+    		}
+    	
+    	}
+    	
+    	void SHA1(){
+
+		const char *hs = "4a1d4dbc1e193ec3ab2e9213876ceb8f4db72333";
+    		
+    		bool isValid = 	cmpLengthEqual(hash,hs) &&
+    				isDigit(hashInt,FALSE)  && 
+    				isAlpha(hashInt,FALSE)  &&
+    				isAlnum(hash,TRUE);
+    				
+    		if(isValid){
+    		
+    			map.push_back(32);
+    		
+    		}
+    	
+    	}
+    	
+	void SHA1HMAC(){
+
+		const char *hs = "4a1d4dbc1e193ec3ab2e9213876ceb8f4db72333";
+    		
+    		bool isValid = 	cmpLengthEqual(hash,hs) &&
+    				isDigit(hashInt,FALSE)  && 
+    				isAlpha(hashInt,FALSE)  &&
+    				isAlnum(hash,TRUE);
+    				
+    		if(isValid){
+    		
+    			map.push_back(33);
+    		
+    		}
+    	
+    	}
+    	
+
+ 
+
+	~HASH_IDENTIFIER(){
+	
+	
+	}
 
 
    	//primary methods
@@ -583,7 +676,7 @@ public:
 
     	}
     	
-    	void hash_show(){
+    	void debug_hash_show(){ 
     	
     		printf("======hash====== ==> %u\n",map.size());
   
@@ -592,7 +685,7 @@ public:
     		for(uint8_t i=0;i < map.size();i++){
     		
     			printf("%hu - %s\n",map[i],crypts[map[i]]);
-    		
+    			    			
     		}
     	
     	}
@@ -600,25 +693,14 @@ public:
 
 };
 
-void hashMapSet(){
-
-	uint16_t i = 0;
-	
-	while(crypts[i] != NULL){
-	
-		hashmap[crypts[i]] = 0;
-		i += 1;
-	
-	}
-
-}
 
 int main(){
 
-	hashMapSet();
 	
 	const char *hash = "c58cda49f00748a3bc0fcfa511d516cb";
 	
-	HASH_IDENTIFIER hasha(hash);
+	HASH_IDENTIFIER hash_id(hash);
+	
+	hash_id._hash_identifier_();
 
 }
